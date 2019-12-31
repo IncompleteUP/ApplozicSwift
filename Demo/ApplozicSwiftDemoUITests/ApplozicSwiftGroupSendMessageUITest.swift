@@ -79,7 +79,7 @@ class ApplozicSwiftGroupSendMessageUITest: XCTestCase {
             return true;
         }
         app.tap()
-        sleep(1)
+        sleep(2)
         app.collectionViews.children(matching: .cell).element(boundBy: 0).children(matching: .other).element.tap()
         app.navigationBars[InAppButton.ConversationScreen.selectPhoto].buttons[InAppButton.ConversationScreen.done].tap() // selecting photo and then sending
         sleep(3)
@@ -142,7 +142,7 @@ class ApplozicSwiftGroupSendMessageUITest: XCTestCase {
         let app = XCUIApplication()
         let path = Bundle(for: ApplozicSwiftGroupSendMessageUITest.self).url(forResource: "Info", withExtension: "plist")
         let dict = NSDictionary(contentsOf: path!) as? [String: Any]
-        sleep(2)
+        sleep(3)
         app.buttons[InAppButton.LaunchScreen.launchChat].tap()
         sleep(2)
         app.navigationBars[AppScreen.myChatScreen].buttons[InAppButton.CreatingGroup.newChat].tap()

@@ -35,6 +35,17 @@ class ViewController: UIViewController {
     }
 
     @IBAction func launchChatList(_ sender: Any) {
+        let contact1  = ALContact()
+        let contact2 = ALContact()
+        
+        contact1.userId = "IoSDemoContact1"
+        contact1.displayName = "IoS Demo Contact 1"
+        contact2.userId = "IoSDemoContact2"
+        contact2.displayName = "IoS Demo Contact 2"
+        
+        let contactService = ALContactService()
+        contactService.addList(ofContacts: [contact1 , contact2])
+        
         let conversationVC = ALKConversationListViewController(configuration: AppDelegate.config)
         let nav = ALKBaseNavigationViewController(rootViewController: conversationVC)
         nav.modalPresentationStyle = .fullScreen
