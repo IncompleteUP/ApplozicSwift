@@ -6,10 +6,6 @@
 	<string>$(TestUserPassword)</string>
 	<key>TestUserId</key>
 	<string>$(TestUserId)</string>
-	<key>LoginUserId</key>
-	<string>$(UserId)</string>
-	<key>LoginUserPassword</key>
-	<string>$(Password)</string>
 	<key>GroupMember1</key>
 	<string>$(GroupMember1)</string>
 	<key>GroupMember2</key>

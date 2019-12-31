@@ -14,8 +14,8 @@ class ApplozicSwiftGroupSendMessageUITest: XCTestCase {
         static let groupMember1 = "GroupMember1"
         static let groupMember2 = "GroupMember2"
         static let typeText = "Hello Applozic"
-        static let fillUserId = "LoginUserId"
-        static let fillPassword = "LoginUserPassword"
+        static let fillUserId = "TestUserId"
+        static let fillPassword = "TestUserPassword"
     }
     
     override func setUp() {

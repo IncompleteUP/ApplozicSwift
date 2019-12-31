@@ -169,13 +169,15 @@ class ApplozicSwiftAudioRecordingUITest: XCTestCase {
     
     private func beforeTest_EnterConversation()  -> (XCUIApplication, XCUIElement, XCUIElement){
         let app = XCUIApplication()
+        let path = Bundle(for: ApplozicSwiftAudioRecordingUITest.self).url(forResource: "Info", withExtension: "plist")
+               let dict = NSDictionary(contentsOf: path!) as? [String: Any]
         app.buttons["Launch Chat"].tap()
         sleep(2)
         app.navigationBars["My Chats"].buttons["fill 214"].tap()
         sleep(3)
         let searchField = app.searchFields["Search"]
         searchField.tap()
-        searchField.typeText("user2ToTestAudioRecord")
+        searchField.typeText(dict!["GroupMember1"] as! String)
         sleep(1)
         if app.tables.cells.count == 1{
             var emptyString = String()
