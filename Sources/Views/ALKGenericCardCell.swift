@@ -119,7 +119,7 @@ open class ALKGenericCardCell: UICollectionViewCell {
 
     open var overlayText: UILabel = {
         let label = UILabel(frame: .zero)
-        label.backgroundColor = UIColor.white
+        label.backgroundColor = UIColor.red
         label.textColor = UIColor(red: 13, green: 13, blue: 14)
         label.font = Font.overlayText
         label.numberOfLines = 1
