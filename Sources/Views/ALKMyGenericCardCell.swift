@@ -122,4 +122,9 @@ open class ALKGenericCardBaseCell: ALKChatBaseCell<ALKMessageViewModel> {
     open func register(cell: UICollectionViewCell.Type) {
         collectionView.register(cell, forCellWithReuseIdentifier: cell.reuseIdentifier)
     }
+    
+    open func xmRegister(cell: UICollectionViewCell.Type,identifier: String) {
+        collectionView.register(cell, forCellWithReuseIdentifier: identifier)
+    }
+    
 }
