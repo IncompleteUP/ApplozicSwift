@@ -144,37 +144,37 @@ open class ALKConversationNavBar: UIView, Localizable {
 
     private func setupConstraints() {
         statusIconBackground.addViewsForAutolayout(views: [onlineStatusIcon])
-        addViewsForAutolayout(views: [backImage, backButton, profileImage, statusIconBackground, profileView])
-
+        //        addViewsForAutolayout(views: [backImage, backButton, profileImage, statusIconBackground, profileView])
+        addViewsForAutolayout(views: [backImage, backButton, profileView])
         // Setup constraints
         backButton.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         backButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
         backButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-
+        
         backImage.leadingAnchor.constraint(equalTo: backButton.leadingAnchor, constant: 5).isActive = true
         backImage.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
         backImage.widthAnchor.constraint(equalToConstant: 12).isActive = true
         backImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-
-        profileImage.leadingAnchor.constraint(equalTo: backButton.trailingAnchor).isActive = true
-        profileImage.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        profileImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
-        profileImage.widthAnchor.constraint(equalToConstant: 35).isActive = true
-
-        statusIconBackground.bottomAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 0).isActive = true
-        statusIconBackground.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: -10).isActive = true
-        statusIconBackground.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        statusIconBackground.heightAnchor.constraint(equalToConstant: 12).isActive = true
-
-        onlineStatusIcon.centerXAnchor.constraint(equalTo: statusIconBackground.centerXAnchor).isActive = true
-        onlineStatusIcon.centerYAnchor.constraint(equalTo: statusIconBackground.centerYAnchor).isActive = true
-        onlineStatusIcon.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        onlineStatusIcon.heightAnchor.constraint(equalToConstant: 10).isActive = true
-
-        profileView.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 5).isActive = true
-        profileView.topAnchor.constraint(equalTo: profileImage.topAnchor).isActive = true
-        profileView.bottomAnchor.constraint(equalTo: profileImage.bottomAnchor).isActive = true
+        
+        //        profileImage.leadingAnchor.constraint(equalTo: backButton.trailingAnchor).isActive = true
+        //        profileImage.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        //        profileImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        //        profileImage.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        //
+        //        statusIconBackground.bottomAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 0).isActive = true
+        //        statusIconBackground.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: -10).isActive = true
+        //        statusIconBackground.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        //        statusIconBackground.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        //
+        //        onlineStatusIcon.centerXAnchor.constraint(equalTo: statusIconBackground.centerXAnchor).isActive = true
+        //        onlineStatusIcon.centerYAnchor.constraint(equalTo: statusIconBackground.centerYAnchor).isActive = true
+        //        onlineStatusIcon.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        //        onlineStatusIcon.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        
+        profileView.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 5).isActive = true
+        profileView.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
+        profileView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         profileView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
 

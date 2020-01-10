@@ -13,18 +13,18 @@ import UIKit
 // swiftlint:disable:next type_body_length
 open class ALKChatBar: UIView, Localizable {
     var configuration: ALKConfiguration!
-
+    
     public var chatBarConfiguration: ALKChatBarConfiguration {
         return configuration.chatBar
     }
-
+    
     public var isMicButtonHidden: Bool!
-
+    
     public enum ButtonMode {
         case send
         case media
     }
-
+    
     public enum ActionType {
         case sendText(UIButton, NSAttributedString)
         case chatBarTextBeginEdit
@@ -40,9 +40,9 @@ open class ALKChatBar: UIView, Localizable {
         case cameraButtonClicked(UIButton)
         case shareContact
     }
-
+    
     public var action: ((ActionType) -> Void)?
-
+    
     open var poweredByMessageLabel: ALKHyperLabel = {
         let label = ALKHyperLabel(frame: CGRect.zero)
         label.backgroundColor = UIColor.darkGray
@@ -52,41 +52,44 @@ open class ALKChatBar: UIView, Localizable {
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-
+    
     public var autocompletionView: UITableView!
-
+    
     open lazy var soundRec: ALKAudioRecorderView = {
         let view = ALKAudioRecorderView(frame: CGRect.zero, configuration: self.configuration)
         view.layer.masksToBounds = true
         return view
     }()
-
+    
     /// A header view which will be present on top of the chat bar.
     /// Use this to add custom views on top. It's default height will be 0.
     /// Make sure to set the height using `headerViewHeight` property.
     open var headerView: UIView = {
         let view = UIView(frame: CGRect.zero)
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         view.accessibilityIdentifier = "Header view"
         return view
     }()
-
+    
     /// Use this to set `headerView`'s height. Default height is 0.
     open var headerViewHeight: Double = 0 {
         didSet {
             headerView.constraint(withIdentifier: ConstraintIdentifier.headerViewHeight.rawValue)?.constant = CGFloat(headerViewHeight)
         }
     }
-
+    
     public let textView: ALKChatBarTextView = {
         let tv = ALKChatBarTextView()
-        tv.setBackgroundColor(UIColor.color(.none))
+        //        tv.setBackgroundColor(UIColor.color(.none))
         tv.scrollsToTop = false
         tv.autocapitalizationType = .sentences
         tv.accessibilityIdentifier = "chatTextView"
+        tv.backgroundColor = .background(.grayEF)
+        tv.layer.cornerRadius = 15;
+        tv.layer.masksToBounds = true
         return tv
     }()
-
+    
     open var frameView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .clear
@@ -94,14 +97,14 @@ open class ALKChatBar: UIView, Localizable {
         view.isUserInteractionEnabled = false
         return view
     }()
-
+    
     open var grayView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.isUserInteractionEnabled = false
         return view
     }()
-
+    
     open lazy var placeHolder: UITextView = {
         let view = UITextView()
         view.setFont(UIFont.font(.normal(size: 14)))
@@ -114,96 +117,109 @@ open class ALKChatBar: UIView, Localizable {
         view.setBackgroundColor(.color(.none))
         return view
     }()
-
+    
     open var micButton: AudioRecordButton = {
         let button = AudioRecordButton(frame: CGRect())
         button.layer.masksToBounds = true
         button.accessibilityIdentifier = "MicButton"
         return button
     }()
-
+    
     open var photoButton: UIButton = {
         let bt = UIButton(type: .custom)
+        
         return bt
     }()
-
+    
     open var galleryButton: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()
-
+    
     open var plusButton: UIButton = {
         let bt = UIButton(type: .custom)
         var image = UIImage(named: "icon_more_menu", in: Bundle.applozic, compatibleWith: nil)
         image = image?.imageFlippedForRightToLeftLayoutDirection()
+        //        bt.setBackgroundColor(UIColor(red: 245/255, green: 52/255, blue: 40/255, alpha:1))
+        //        bt.setTitle("Send", for: .normal)
         bt.setImage(image, for: .normal)
         return bt
     }()
-
+    
     open var locationButton: UIButton = {
         let bt = UIButton(type: .custom)
         return bt
     }()
-
+    
     open var contactButton: UIButton = {
         let button = UIButton(type: .custom)
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         return button
     }()
-
+    
     open var lineImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "line", in: Bundle.applozic, compatibleWith: nil))
+        //        imageView.setBackgroundColor(UIColor.white)
         return imageView
     }()
-
+    
     open lazy var sendButton: UIButton = {
         let bt = UIButton(type: .custom)
-        var image = configuration.sendMessageIcon
+        //        var image = configuration.sendMessageIcon
+        //        image = image?.imageFlippedForRightToLeftLayoutDirection()
+        //        bt.setImage(image, for: .normal)
+        //        bt.setBackgroundColor(UIColor(red: 245/255, green: 52/255, blue: 40/255, alpha:1))
+        
+        var image = UIImage(named: "xm_imSend", in: Bundle.applozic, compatibleWith: nil)
         image = image?.imageFlippedForRightToLeftLayoutDirection()
-        bt.setImage(image, for: .normal)
+        bt.setBackgroundImage(image, for: .normal)
+        bt.setTitle("Send", for: .normal)
+        bt.setTitleColor(UIColor.white, for: .normal)
+        bt.titleLabel?.font = UIFont.font(.normal(size: 14))
         bt.accessibilityIdentifier = "sendButton"
-
+        
         return bt
     }()
-
+    
     open var lineView: UIView = {
         let view = UIView()
         let layer = view.layer
-        view.backgroundColor = UIColor(red: 217.0 / 255.0, green: 217.0 / 255.0, blue: 217.0 / 255.0, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 248.0 / 255.0, green: 248.0 / 248.0, blue: 217.0 / 255.0, alpha: 1.0)
         return view
     }()
-
+    
     open var bottomGrayView: UIView = {
         let view = UIView()
-        view.setBackgroundColor(.background(.grayEF))
+        //        view.setBackgroundColor(.background(.grayEF))
+        view.setBackgroundColor(UIColor.white)
         view.isUserInteractionEnabled = false
         return view
     }()
-
+    
     open var videoButton: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()
-
+    
     /// Returns true if the textView is first responder.
     open var isTextViewFirstResponder: Bool {
         return textView.isFirstResponder
     }
-
+    
     var isMediaViewHidden = false {
         didSet {
             if isMediaViewHidden {
                 bottomGrayView.constraint(withIdentifier: ConstraintIdentifier.mediaBackgroudViewHeight.rawValue)?.constant = 0
                 attachmentButtonStackView.constraint(withIdentifier: ConstraintIdentifier.mediaStackViewHeight.rawValue)?.constant = 0
-
+                
             } else {
-                bottomGrayView.constraint(withIdentifier: ConstraintIdentifier.mediaBackgroudViewHeight.rawValue)?.constant = 45
-                attachmentButtonStackView.constraint(withIdentifier: ConstraintIdentifier.mediaStackViewHeight.rawValue)?.constant = 25
+                bottomGrayView.constraint(withIdentifier: ConstraintIdentifier.mediaBackgroudViewHeight.rawValue)?.constant = 100
+                attachmentButtonStackView.constraint(withIdentifier: ConstraintIdentifier.mediaStackViewHeight.rawValue)?.constant = 40
             }
         }
     }
-
+    
     var defaultTextAttributes: [NSAttributedString.Key: Any] = {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 4.0
@@ -212,31 +228,31 @@ open class ALKChatBar: UIView, Localizable {
             NSAttributedString.Key.font: UIFont.font(.normal(size: 16.0)),
         ]
         return attrs
-    }() {
+        }() {
         didSet {
             textView.typingAttributes = defaultTextAttributes
         }
     }
-
+    
     private var attachmentButtonStackView: UIStackView = {
         let attachmentStack = UIStackView(frame: CGRect.zero)
         return attachmentStack
     }()
-
+    
     fileprivate var textViewHeighConstrain: NSLayoutConstraint?
     fileprivate let textViewHeigh: CGFloat = 40.0
     fileprivate let textViewHeighMax: CGFloat = 102.2 + 8.0
-
+    
     fileprivate var textViewTrailingWithSend: NSLayoutConstraint?
     fileprivate var textViewTrailingWithMic: NSLayoutConstraint?
-
+    
     private enum ConstraintIdentifier: String {
         case mediaBackgroudViewHeight
         case poweredByMessageHeight
         case headerViewHeight
         case mediaStackViewHeight
     }
-
+    
     @objc func tapped(button: UIButton) {
         switch button {
         case sendButton:
@@ -245,12 +261,17 @@ open class ALKChatBar: UIView, Localizable {
                 action?(.sendText(button, attributedText))
             }
         case plusButton:
-            action?(.more(button))
+            //            action?(.more(button))
+            textView.resignFirstResponder()
+            button.isSelected = !button.isSelected
+            updateMediaViewVisibility(hide: button.isSelected)
         case photoButton:
+            plusButton.isSelected = !plusButton.isSelected
             action?(.cameraButtonClicked(button))
         case videoButton:
             action?(.startVideoRecord)
         case galleryButton:
+            plusButton.isSelected = !plusButton.isSelected
             action?(.showImagePicker)
         case locationButton:
             action?(.showLocation)
@@ -259,30 +280,31 @@ open class ALKChatBar: UIView, Localizable {
         default: break
         }
     }
-
+    
     fileprivate func toggleKeyboardType(textView: UITextView) {
         textView.keyboardType = .asciiCapable
         textView.reloadInputViews()
         textView.keyboardType = .default
         textView.reloadInputViews()
+        
     }
-
+    
     private weak var comingSoonDelegate: UIView?
-
+    
     var chatIdentifier: String?
-
+    
     private func initializeView() {
         if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             textView.textAlignment = .right
         }
-
+        self.backgroundColor = UIColor.white
         micButton.setAudioRecDelegate(recorderDelegate: self)
         soundRec.setAudioRecViewDelegate(recorderDelegate: self)
         textView.typingAttributes = defaultTextAttributes
         textView.add(delegate: self)
-        backgroundColor = .background(.grayEF)
+        backgroundColor = UIColor.white
         translatesAutoresizingMaskIntoConstraints = false
-
+        
         plusButton.addTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         photoButton.addTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
@@ -290,40 +312,60 @@ open class ALKChatBar: UIView, Localizable {
         galleryButton.addTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         locationButton.addTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         contactButton.addTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
-
+        
         setupAttachment(buttonIcons: chatBarConfiguration.attachmentIcons)
         setupConstraints()
-
+        
         if configuration.hideLineImageFromChatBar {
             lineImageView.isHidden = true
         }
-        updateMediaViewVisibility()
+        //        updateMediaViewVisibility()
+        plusButton.isSelected = true
+        //        tapped(button: plusButton)
+        //        isMediaViewHidden = true
+        //        updateMediaViewVisibility(hide: true)
+        //键盘即将弹出
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(note:)), name: UIResponder.keyboardWillShowNotification , object:nil)
+        
     }
-
+    //键盘弹出监听
+    @objc func keyboardShow(note: Notification)  {
+        if plusButton.isSelected == false {
+            plusButton.isSelected = !plusButton.isSelected
+            updateMediaViewVisibility(hide: true)
+        }
+        
+    }
+    
+    //键盘隐藏监听
+    @objc func keyboardHidden(note: Notification){
+        
+    }
+    
     func setComingSoonDelegate(delegate: UIView) {
         comingSoonDelegate = delegate
     }
-
+    
     open func clear() {
         textView.text = ""
         clearTextInTextView()
         textView.attributedText = nil
         toggleKeyboardType(textView: textView)
     }
-
+    
     func hideMicButton() {
         isMicButtonHidden = true
         micButton.isHidden = true
         sendButton.isHidden = false
     }
-
+    
     public required init(frame: CGRect, configuration: ALKConfiguration) {
         super.init(frame: frame)
         self.configuration = configuration
         isMicButtonHidden = configuration.hideAudioOptionInChatBar
         initializeView()
     }
-
+    
     deinit {
         plusButton.removeTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         photoButton.removeTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
@@ -332,28 +374,29 @@ open class ALKChatBar: UIView, Localizable {
         galleryButton.removeTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         locationButton.removeTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
         contactButton.removeTarget(self, action: #selector(tapped(button:)), for: .touchUpInside)
+        NotificationCenter.default.removeObserver(self)
     }
-
+    
     private var isNeedInitText = true
-
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         if isNeedInitText {
             guard chatIdentifier != nil else {
                 return
             }
-
+            
             isNeedInitText = false
         }
     }
-
+    
     // swiftlint:disable:next function_body_length
     private func setupConstraints(
         maxLength: CGFloat = max(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
-    ) {
-        plusButton.isHidden = true
-
+        ) {
+        plusButton.isHidden = false
+        
         var bottomAnchor: NSLayoutYAxisAnchor {
             if #available(iOS 11.0, *) {
                 return self.safeAreaLayoutGuide.bottomAnchor
@@ -361,10 +404,10 @@ open class ALKChatBar: UIView, Localizable {
                 return self.bottomAnchor
             }
         }
-
+        
         var buttonSpacing: CGFloat = 25
         if maxLength <= 568.0 { buttonSpacing = 20 } // For iPhone 5
-
+        
         func buttonsForOptions(_ options: ALKChatBarConfiguration.AttachmentOptions) -> [UIButton] {
             var buttons: [UIButton] = []
             switch options {
@@ -381,10 +424,10 @@ open class ALKChatBar: UIView, Localizable {
             }
             return buttons
         }
-
+        
         func buttonForAttachmentType(
             _ type: AttachmentType
-        ) -> UIButton {
+            ) -> UIButton {
             switch type {
             case .contact:
                 return contactButton
@@ -398,19 +441,19 @@ open class ALKChatBar: UIView, Localizable {
                 return videoButton
             }
         }
-
+        
         let buttonSize = CGSize(width: 25, height: 25)
         let attachmentButtons = buttonsForOptions(chatBarConfiguration.optionsToShow)
         attachmentButtons.forEach { attachmentButtonStackView.addArrangedSubview($0) }
         attachmentButtonStackView.spacing = buttonSpacing
-
+        
         addViewsForAutolayout(views: [
             headerView,
             bottomGrayView,
-            plusButton,
             attachmentButtonStackView,
             grayView,
             textView,
+            plusButton,
             sendButton,
             micButton,
             lineImageView,
@@ -419,21 +462,21 @@ open class ALKChatBar: UIView, Localizable {
             placeHolder,
             soundRec,
             poweredByMessageLabel,
-        ])
-
+            ])
+        
         lineView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-
+        
         headerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         headerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         headerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         headerView.heightAnchor.constraintEqualToAnchor(constant: 0, identifier: ConstraintIdentifier.headerViewHeight.rawValue).isActive = true
-
+        
         let buttonheightConstraints = attachmentButtonStackView.subviews
             .map { $0.widthAnchor.constraint(equalToConstant: buttonSize.width) }
-
+        
         var stackViewConstraints = [
             attachmentButtonStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             attachmentButtonStackView.heightAnchor.constraintEqualToAnchor(
@@ -444,83 +487,93 @@ open class ALKChatBar: UIView, Localizable {
         ]
         stackViewConstraints.append(contentsOf: buttonheightConstraints)
         NSLayoutConstraint.activate(stackViewConstraints)
-
-        plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
-        plusButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        plusButton.widthAnchor.constraint(equalToConstant: 38).isActive = true
-        plusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
-
+        
+        plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        plusButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        plusButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        //        plusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        plusButton.centerYAnchor.constraint(equalTo: textView.centerYAnchor).isActive = true
+        
+        
+        
+        
         lineImageView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -15).isActive = true
         lineImageView.widthAnchor.constraint(equalToConstant: 2).isActive = true
         lineImageView.topAnchor.constraint(equalTo: textView.topAnchor, constant: 10).isActive = true
         lineImageView.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: -10).isActive = true
-
-        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
-        sendButton.widthAnchor.constraint(equalToConstant: 28).isActive = true
-        sendButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        sendButton.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: -7).isActive = true
-
+        
+        sendButton.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor, constant: -10).isActive = true
+        sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        sendButton.heightAnchor.constraint(equalToConstant: 33).isActive = true
+        //        sendButton.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: -7).isActive = true
+        sendButton.centerYAnchor.constraint(equalTo: textView.centerYAnchor).isActive = true
+        
         micButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         micButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         micButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         micButton.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: -10).isActive = true
-
+        
         if isMicButtonHidden {
             micButton.isHidden = true
         } else {
             sendButton.isHidden = true
         }
-
-        textView.topAnchor.constraint(equalTo: poweredByMessageLabel.bottomAnchor, constant: 0).isActive = true
+        
+        textView.topAnchor.constraint(equalTo: poweredByMessageLabel.bottomAnchor, constant: 5).isActive = true
+        textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15).isActive = true
         textView.bottomAnchor.constraint(equalTo: bottomGrayView.topAnchor, constant: 0).isActive = true
-        textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3).isActive = true
+        //        textView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -15).isActive = true
+        
+        
+        
         poweredByMessageLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         poweredByMessageLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         poweredByMessageLabel.heightAnchor.constraintEqualToAnchor(constant: 0, identifier: ConstraintIdentifier.poweredByMessageHeight.rawValue).isActive = true
         poweredByMessageLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
-
-        textView.trailingAnchor.constraint(equalTo: lineImageView.leadingAnchor).isActive = true
-
+        
+        //        textView.trailingAnchor.constraint(equalTo: lineImageView.leadingAnchor, constant: 15).isActive = true
+        textView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -15).isActive = true
+        
         textViewHeighConstrain = textView.heightAnchor.constraint(equalToConstant: textViewHeigh)
         textViewHeighConstrain?.isActive = true
-
+        
         placeHolder.heightAnchor.constraint(equalToConstant: 35).isActive = true
         placeHolder.centerYAnchor.constraint(equalTo: textView.centerYAnchor, constant: 0).isActive = true
         placeHolder.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 0).isActive = true
         placeHolder.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: 0).isActive = true
-
+        
         soundRec.isHidden = true
         soundRec.topAnchor.constraint(equalTo: textView.topAnchor).isActive = true
         soundRec.bottomAnchor.constraint(equalTo: textView.bottomAnchor).isActive = true
         soundRec.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 0).isActive = true
         soundRec.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: 0).isActive = true
-
+        
         frameView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         frameView.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: 0).isActive = true
         frameView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -4).isActive = true
         frameView.rightAnchor.constraint(equalTo: rightAnchor, constant: 2).isActive = true
-
+        
         grayView.topAnchor.constraint(equalTo: frameView.topAnchor, constant: 0).isActive = true
         grayView.bottomAnchor.constraint(equalTo: frameView.bottomAnchor, constant: 0).isActive = true
         grayView.leftAnchor.constraint(equalTo: frameView.leftAnchor, constant: 0).isActive = true
         grayView.rightAnchor.constraint(equalTo: frameView.rightAnchor, constant: 0).isActive = true
-
+        
         bottomGrayView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         bottomGrayView.heightAnchor.constraintEqualToAnchor(constant: 0, identifier: ConstraintIdentifier.mediaBackgroudViewHeight.rawValue).isActive = true
         bottomGrayView.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         bottomGrayView.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
-
+        
         bringSubviewToFront(frameView)
     }
-
+    
     public required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     public func showPoweredByMessage() {
         poweredByMessageLabel.constraint(withIdentifier: ConstraintIdentifier.poweredByMessageHeight.rawValue)?.constant = 20
     }
-
+    
     /// Use this to update the visibilty of attachment options
     /// after the view has been set up.
     ///
@@ -534,7 +587,7 @@ open class ALKChatBar: UIView, Localizable {
             isMediaViewHidden = false
         }
     }
-
+    
     private func changeButton() {
         if soundRec.isHidden {
             soundRec.isHidden = false
@@ -550,14 +603,14 @@ open class ALKChatBar: UIView, Localizable {
             placeHolder.text = localizedString(forKey: "ChatHere", withDefaultValue: SystemMessage.Information.ChatHere, fileName: configuration.localizedStringFileName)
         }
     }
-
+    
     func stopRecording() {
         soundRec.userDidStopRecording()
         micButton.isSelected = false
         soundRec.isHidden = true
         placeHolder.text = localizedString(forKey: "ChatHere", withDefaultValue: SystemMessage.Information.ChatHere, fileName: configuration.localizedStringFileName)
     }
-
+    
     func hideAudioOptionInChatBar() {
         guard !isMicButtonHidden else {
             micButton.isHidden = true
@@ -565,14 +618,14 @@ open class ALKChatBar: UIView, Localizable {
         }
         micButton.isHidden = !textView.text.isEmpty
     }
-
+    
     func toggleButtonInChatBar(hide: Bool) {
         if !isMicButtonHidden {
             sendButton.isHidden = hide
             micButton.isHidden = !hide
         }
     }
-
+    
     func toggleUserInteractionForViews(enabled: Bool) {
         micButton.isUserInteractionEnabled = enabled
         sendButton.isUserInteractionEnabled = enabled
@@ -585,7 +638,7 @@ open class ALKChatBar: UIView, Localizable {
         contactButton.isUserInteractionEnabled = enabled
         textView.isUserInteractionEnabled = enabled
     }
-
+    
     func disableChat(message: String) {
         toggleUserInteractionForViews(enabled: false)
         placeHolder.text = message
@@ -597,43 +650,43 @@ open class ALKChatBar: UIView, Localizable {
             clearTextInTextView()
         }
     }
-
+    
     func enableChat() {
         guard soundRec.isHidden else { return }
         toggleUserInteractionForViews(enabled: true)
         placeHolder.text = NSLocalizedString("ChatHere", value: SystemMessage.Information.ChatHere, comment: "")
     }
-
+    
     func updateTextViewHeight(textView: UITextView, text: String) {
         let attributes = textView.typingAttributes
         let tv = UITextView(frame: textView.frame)
         tv.attributedText = NSAttributedString(string: text, attributes: attributes)
-
+        
         let fixedWidth = textView.frame.size.width
         let size = tv.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-
+        
         if let textViewHeighConstrain = self.textViewHeighConstrain, size.height != textViewHeighConstrain.constant {
             if size.height < textViewHeighMax {
                 textViewHeighConstrain.constant = size.height > textViewHeigh ? size.height : textViewHeigh
             } else if textViewHeighConstrain.constant != textViewHeighMax {
                 textViewHeighConstrain.constant = textViewHeighMax
             }
-
+            
             textView.layoutIfNeeded()
         }
     }
-
+    
     func setupAttachment(buttonIcons: [AttachmentType: UIImage?]) {
         func setup(
             image: UIImage?,
             to button: UIButton,
             withSize size: CGSize = CGSize(width: 25, height: 25)
-        ) {
+            ) {
             var image = image?.imageFlippedForRightToLeftLayoutDirection()
             image = image?.scale(with: size)
             button.setImage(image, for: .normal)
         }
-
+        
         for option in AttachmentType.allCases {
             switch option {
             case .contact:
@@ -653,48 +706,52 @@ open class ALKChatBar: UIView, Localizable {
 
 extension ALKChatBar: UITextViewDelegate {
     public func textViewDidChange(_ textView: UITextView) {
+        
+        
         textView.typingAttributes = defaultTextAttributes
         if textView.text.isEmpty {
             clearTextInTextView()
         } else {
             placeHolder.isHidden = true
             placeHolder.alpha = 0
-
+            
             toggleButtonInChatBar(hide: false)
             updateTextViewHeight(textView: textView, text: textView.text)
         }
-
+        
         if let selectedTextRange = textView.selectedTextRange {
             let line = textView.caretRect(for: selectedTextRange.start)
             let overflow = line.origin.y + line.size.height - (textView.contentOffset.y + textView.bounds.size.height - textView.contentInset.bottom - textView.contentInset.top)
-
+            
             if overflow > 0 {
                 var offset = textView.contentOffset
                 offset.y += overflow + 8.2 // leave 8.2 pixels margin
-
+                
                 textView.setContentOffset(offset, animated: false)
             }
         }
         action?(.chatBarTextChange(photoButton))
     }
-
+    
     public func textViewDidBeginEditing(_ textView: UITextView) {
+        //        plusButton.isSelected = !plusButton.isSelected
+        
         action?(.chatBarTextBeginEdit)
         guard textView.text == nil || textView.text.isEmpty else { return }
         textView.changeTextDirection()
         placeHolder.changeTextDirection()
     }
-
+    
     public func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             toggleButtonInChatBar(hide: true)
             if placeHolder.isHidden {
                 placeHolder.isHidden = false
                 placeHolder.alpha = 1.0
-
+                
                 DispatchQueue.main.async { [weak self] in
                     guard let weakSelf = self else { return }
-
+                    
                     weakSelf.textViewHeighConstrain?.constant = weakSelf.textViewHeigh
                     UIView.animate(withDuration: 0.15) {
                         weakSelf.layoutIfNeeded()
@@ -702,7 +759,7 @@ extension ALKChatBar: UITextViewDelegate {
                 }
             }
         }
-
+        
         // clear inputview of textview
         textView.inputView = nil
         textView.reloadInputViews()
@@ -710,14 +767,14 @@ extension ALKChatBar: UITextViewDelegate {
         textView.changeTextDirection()
         placeHolder.changeTextDirection()
     }
-
+    
     fileprivate func clearTextInTextView() {
         if textView.text.isEmpty {
             toggleButtonInChatBar(hide: true)
             if placeHolder.isHidden {
                 placeHolder.isHidden = false
                 placeHolder.alpha = 1.0
-
+                
                 textViewHeighConstrain?.constant = textViewHeigh
                 layoutIfNeeded()
             }
@@ -733,7 +790,7 @@ extension ALKChatBar: ALKAudioRecorderProtocol {
         action?(.startVoiceRecord)
         soundRec.userDidStartRecording()
     }
-
+    
     public func finishRecordingAudio(soundData: NSData) {
         textView.resignFirstResponder()
         if soundRec.isRecordingTimeSufficient() {
@@ -741,15 +798,15 @@ extension ALKChatBar: ALKAudioRecorderProtocol {
         }
         stopRecording()
     }
-
+    
     public func cancelRecordingAudio() {
         stopRecording()
     }
-
+    
     public func permissionNotGrant() {
         action?(.noVoiceRecordPermission)
     }
-
+    
     public func moveButton(location: CGPoint) {
         soundRec.moveView(location: location)
     }
