@@ -290,13 +290,14 @@ public final class ALKChatCell: MGSwipeTableCell, Localizable {
         deleteButton.tintColor = .white
         deleteButton.accessibilityIdentifier = "SwippableDeleteIcon"
         deleteButton.frame = CGRect(x: 0, y: 0, width: 69, height: 69)
-        if !viewModel.isGroupChat || (viewModel.channelKey != nil && ALChannelService().isChannelLeft(viewModel.channelKey)) {
-            let leaveTitle = localizedString(forKey: "DeleteButtonName", withDefaultValue: SystemMessage.ButtonName.Delete, fileName: localizationFileName)
-            deleteButton.setTitle(leaveTitle, for: .normal)
-        } else {
-            let leaveTitle = localizedString(forKey: "LeaveButtonName", withDefaultValue: SystemMessage.ButtonName.Leave, fileName: localizationFileName)
-            deleteButton.setTitle(leaveTitle, for: .normal)
-        }
+        let leaveTitle = localizedString(forKey: "DeleteButtonName", withDefaultValue: SystemMessage.ButtonName.Delete, fileName: localizationFileName)
+//        if !viewModel.isGroupChat || (viewModel.channelKey != nil && ALChannelService().isChannelLeft(viewModel.channelKey)) {
+//            let leaveTitle = localizedString(forKey: "DeleteButtonName", withDefaultValue: SystemMessage.ButtonName.Delete, fileName: localizationFileName)
+//            deleteButton.setTitle(leaveTitle, for: .normal)
+//        } else {
+//            let leaveTitle = localizedString(forKey: "LeaveButtonName", withDefaultValue: SystemMessage.ButtonName.Leave, fileName: localizationFileName)
+//            deleteButton.setTitle(leaveTitle, for: .normal)
+//        }
         deleteButton.alignVertically()
         deleteButton.callback = { [weak self] _ in
             guard let strongSelf = self else { return true }
