@@ -373,16 +373,17 @@ open class ALKConversationListViewController: ALKBaseViewController, Localizable
 
 extension ALKConversationListViewController: ALMessagesDelegate {
     public func getMessagesArray(_ messagesArray: NSMutableArray!) {
-        var totalMeassageArr = NSMutableArray();
+        var totalMessageArr = NSMutableArray();
         
-        for index in messagesArray.enumerated() {
-            var messageModel = messagesArray?[index.offset as! Int] as! ALMessage
-            guard let groupId = messageModel.groupId else {
-                return
+        for index in messagesArray {
+            print("Messages index: \(index)")
+            let messageModel = index as! ALMessage
+            if messageModel.groupId != nil {
+                totalMessageArr.add(messageModel)
             }
-            totalMeassageArr.add(messageModel)
         }
-        guard let messages = totalMeassageArr as? [Any] else {
+        
+        guard let messages = totalMessageArr as? [Any] else {
             return
         }
         print("Messages loaded: \(messages)")
